@@ -1,2 +1,186 @@
 # ml_communities_journal
-This repository contains notebooks  and code used for the implementation of LSTM Autoencoder anomaly detection in IoT Communities of Interest (CoI)
+# Collective Contextual Anomaly Detection for Smart Building IoT Sensors
+
+A deep learning framework for detecting collective contextual anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
+
+## Overview
+
+This repository contains the implementation of a collective contextual anomaly detection (CCAD) methodology designed to identify abnormal sensor behavior patterns in smart buildings and weather stations. The approach integrates hierarchical clustering with three autoencoder architectures (BiLSTM, LSTM, and MLP) to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
+
+### Key Features
+
+- **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
+- **Multiple Autoencoder Architectures**: BiLSTM, LSTM, and MLP implementations
+- **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, derivatives, and volatility measures
+- **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
+- **Production-Ready**: Designed for deployment on ESP32 microcontrollers for real-time monitoring
+
+## Motivation
+
+Traditional point anomaly detection methods fail to identify collective contextual anomalies where sensor readings appear normal in isolation but are abnormal within their spatial-temporal context. This research addresses scenarios where:
+
+- Multiple sensors show coordinated abnormal patterns
+- Anomalies are only detectable when considering temporal context
+- Environmental factors influence what constitutes "normal" behavior
+
+## Architecture
+
+### Autoencoder Models
+
+1. **BiLSTM Autoencoder**: Bidirectional LSTM layers capture temporal dependencies in both directions
+2. **LSTM Autoencoder**: Unidirectional LSTM for sequential pattern learning
+3. **MLP Autoencoder**: Dense layers for baseline comparison and computational efficiency
+
+### Feature Engineering Pipeline
+
+The system extracts 13 features from raw temperature readings:
+
+- **Raw Temperature**: Original sensor value
+- **Cyclical Temporal Encodings**: `hour_sin`, `hour_cos`, `dow_sin`, `dow_cos`
+- **Derivative Features**: Velocity (1st derivative), Acceleration (2nd derivative), Energy
+- **Volatility Measures**: For detecting stuck or erratic sensors
+- **Statistical Aggregations**: Rolling mean, standard deviation, range
+
+## Methodology
+
+### Data Collection
+
+- **Frequency**: 10-minute intervals
+- **Sequence Lengths**: 24-144 timesteps (4-24 hours)
+- **Clusters**: 4 building clusters formed through hierarchical clustering
+
+### Cross-Validation
+
+Expanding window cross-validation (5 folds) to preserve temporal order and prevent data leakage:
+
+```
+Fold 1: Train [0:20%]    → Validate [20:40%]
+Fold 2: Train [0:40%]    → Validate [40:60%]
+Fold 3: Train [0:60%]    → Validate [60:80%]
+Fold 4: Train [0:80%]    → Validate [80:100%]
+Fold 5: Train [0:100%]   → Validate on holdout
+```
+
+### Hyperparameter Optimization
+
+Bayesian optimization (35 evaluations) using Gaussian Process with:
+
+- Constrained search spaces forcing regularization
+- Tight bottleneck architectures
+- Prevention of boundary-hitting behavior
+- Optimization for anomaly detection (not just reconstruction)
+
+## Results
+
+### Performance Metrics
+
+Models evaluated using:
+- RMSE, MAE, MAPE
+- Accuracy, Precision, Recall, F1-Score
+- Specificity, AUC-ROC
+
+### Key Findings
+
+1. **BiLSTM Performance**: Achieved 98.37% recall and 92.11% F1-score
+2. **Sequence Length Impact**: Increasing from 24 to 144 timesteps significantly improved performance
+3. **Model Size**: Smaller, constrained models with regularization outperformed larger models
+4. **Threshold Strategy**: Statistical thresholds (μ + 3σ) proved more practical than ROC-based optimization
+
+## Repository Structure
+
+```
+├── bilstm_hpo_c.py              # BiLSTM hyperparameter optimization
+├── lstm_hpo_fe.py               # LSTM hyperparameter optimization
+├── mlp_hpo.py                   # MLP hyperparameter optimization
+├── mlp_final_train.py           # Final MLP training pipeline
+├── anomaly_test_mlp.py          # MLP anomaly detection testing
+├── bi_lstm_autoencoder.py       # BiLSTM architecture implementation
+├── bilstm_feature_engineering.py # Feature engineering for BiLSTM
+├── mlp.py                       # MLP architecture implementation
+├── mlp_test.py                  # MLP testing utilities
+├── mlp_test_anom.py            # MLP anomaly detection utilities
+├── all_data_c4.csv             # Sample cluster data
+└── README.md                    # This file
+```
+
+## Installation
+
+### Requirements
+
+```bash
+pip install tensorflow numpy pandas scikit-learn scikit-optimize matplotlib joblib
+```
+
+### Hardware Requirements
+
+- **Training**: NVIDIA GPU (tested on RTX 5090)
+- **Deployment**: ESP32-S3-DevKitC-1 (or compatible microcontroller)
+
+## Usage
+
+### 1. Hyperparameter Optimization
+
+```bash
+# BiLSTM
+python bilstm_hpo_c.py
+
+# LSTM
+python lstm_hpo_fe.py
+
+# MLP
+python mlp_hpo.py
+```
+
+### 2. Model Training
+
+```bash
+python mlp_final_train.py
+```
+
+### 3. Anomaly Detection
+
+```bash
+python anomaly_test_mlp.py
+```
+
+## Reproducibility
+
+All experiments use fixed random seeds:
+
+```python
+np.random.seed(42)
+tf.random.set_seed(42)
+tf.config.experimental.enable_op_determinism()
+```
+
+Comprehensive metadata, scalers, and model artifacts are saved for traceability across experiments.
+
+## Key Insights
+
+### Data Leakage Prevention
+
+- Expanding window cross-validation maintains chronological order
+- Purge gaps between training and validation sets
+- Proper sequence splitting to avoid temporal leakage
+
+### Optimization Strategy
+
+**Critical Discovery**: Optimizing for reconstruction loss minimization is counterproductive for anomaly detection. Models that reconstruct everything perfectly fail to distinguish normal from anomalous patterns.
+
+**Solution**: Optimize for anomaly detection performance metrics (F1-score, Recall) rather than reconstruction error alone.
+
+### Contextual Features
+
+Statistical thresholds and contextual features are essential for detecting collective anomalies that appear normal in isolation.
+
+## Future Work
+
+- [ ] Complete generalizability evaluation framework
+- [ ] Memory optimization for ESP32 deployment
+- [ ] Feature importance analysis using permutation methods
+- [ ] Extended validation on diverse building types
+- [ ] Real-time monitoring dashboard
+
+---
+
+**Note**: This repository contains research code intended for academic publication. Code is provided for reproducibility and educational purposes.
