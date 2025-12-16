@@ -1,5 +1,6 @@
-# ml_communities_journal
-# Collective Contextual Anomaly Detection for Smart Building IoT Sensors
+
+# Anomaly detection for Communities of Interest in
+Internet of Things using Deep Autoencoders
 
 A deep learning framework for detecting collective contextual anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
 
