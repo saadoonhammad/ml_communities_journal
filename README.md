@@ -14,7 +14,6 @@ This repository contains the implementation of a collective contextual anomaly d
 - **Multiple Autoencoder Architectures**: BiLSTM, LSTM, and MLP implementations
 - **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, derivatives, and volatility measures
 - **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
-- **Production-Ready**: Designed for deployment on ESP32 microcontrollers for real-time monitoring
 
 ## Motivation
 
@@ -115,7 +114,6 @@ pip install tensorflow numpy pandas scikit-learn scikit-optimize matplotlib jobl
 ### Hardware Requirements
 
 - **Training**: NVIDIA GPU (tested on RTX 5090)
-- **Deployment**: ESP32-S3-DevKitC-1 (or compatible microcontroller)
 
 ## Usage
 
@@ -177,7 +175,6 @@ Statistical thresholds and contextual features are essential for detecting colle
 ## Future Work
 
 - [ ] Complete generalizability evaluation framework
-- [ ] Memory optimization for ESP32 deployment
 - [ ] Feature importance analysis using permutation methods
 - [ ] Extended validation on diverse building types
 - [ ] Real-time monitoring dashboard
