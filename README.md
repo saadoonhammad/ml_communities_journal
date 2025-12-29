@@ -1,35 +1,26 @@
 
-# Anomaly detection for Communities of Interest in
-Internet of Things using Deep Autoencoders
+# {Anomaly detection for Communities of Interest in Internet of Things using Deep Autoencoders
 
 A deep learning framework for detecting collective contextual anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
 
 ## Overview
 
-This repository contains the implementation of a collective contextual anomaly detection (CCAD) methodology designed to identify abnormal sensor behavior patterns in smart buildings and weather stations. The approach integrates hierarchical clustering with three autoencoder architectures (BiLSTM, LSTM, and MLP) to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
+This repository contains the implementation of a collective anomaly detection methodology designed to identify abnormal sensor behaviour patterns in temperature time series data from a network of meteorological stations in the province of Castelló. The approach integrates hierarchical clustering with three autoencoder architectures (BiLSTM, LSTM, and MLP) to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
 
 ### Key Features
 
 - **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
-- **Multiple Autoencoder Architectures**: BiLSTM, LSTM, and MLP implementations
-- **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, derivatives, and volatility measures
+- **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTMimplementations
+- **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
 - **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
-
-## Motivation
-
-Traditional point anomaly detection methods fail to identify collective contextual anomalies where sensor readings appear normal in isolation but are abnormal within their spatial-temporal context. This research addresses scenarios where:
-
-- Multiple sensors show coordinated abnormal patterns
-- Anomalies are only detectable when considering temporal context
-- Environmental factors influence what constitutes "normal" behavior
 
 ## Architecture
 
 ### Autoencoder Models
 
-1. **BiLSTM Autoencoder**: Bidirectional LSTM layers capture temporal dependencies in both directions
-2. **LSTM Autoencoder**: Unidirectional LSTM for sequential pattern learning
-3. **MLP Autoencoder**: Dense layers for baseline comparison and computational efficiency
+1. **MLP Autoencoder**: Dense layers for baseline comparison and computational efficiency
+2. **BiLSTM Autoencoder**: Bidirectional LSTM layers capture temporal dependencies in both directions
+3. **LSTM Autoencoder**: Unidirectional LSTM for sequential pattern learning
 
 ### Feature Engineering Pipeline
 
@@ -61,14 +52,14 @@ Fold 4: Train [0:80%]    → Validate [80:100%]
 Fold 5: Train [0:100%]   → Validate on holdout
 ```
 
-### Hyperparameter Optimization
+### Hyperparameter Optimisation
 
-Bayesian optimization (35 evaluations) using Gaussian Process with:
+Bayesian optimisation (35 evaluations) using Gaussian Process with:
 
-- Constrained search spaces forcing regularization
+- Constrained search spaces forcing regularisation
 - Tight bottleneck architectures
-- Prevention of boundary-hitting behavior
-- Optimization for anomaly detection (not just reconstruction)
+- Prevention of boundary-hitting behaviour
+- Optimisation for anomaly detection (not just reconstruction)
 
 ## Results
 
@@ -162,9 +153,9 @@ Comprehensive metadata, scalers, and model artifacts are saved for traceability 
 - Purge gaps between training and validation sets
 - Proper sequence splitting to avoid temporal leakage
 
-### Optimization Strategy
+### Optimisation Strategy
 
-**Critical Discovery**: Optimizing for reconstruction loss minimization is counterproductive for anomaly detection. Models that reconstruct everything perfectly fail to distinguish normal from anomalous patterns.
+**Critical Discovery**: Optimising for reconstruction loss minimization is counterproductive for anomaly detection. Models that reconstruct everything perfectly fail to distinguish normal from anomalous patterns.
 
 **Solution**: Optimize for anomaly detection performance metrics (F1-score, Recall) rather than reconstruction error alone.
 
