@@ -1,5 +1,5 @@
 
-# {Anomaly detection for Communities of Interest in Internet of Things using Deep Autoencoders
+# Anomaly detection for Communities of Interest in Internet of Things using Deep Autoencoders
 
 A deep learning framework for detecting collective contextual anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
 
