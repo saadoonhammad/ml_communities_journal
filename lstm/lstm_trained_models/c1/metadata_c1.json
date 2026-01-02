@@ -1,0 +1,46 @@
+{
+  "feature_mode": "all",
+  "feature_names": [
+    "temp_value",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "energy",
+    "velocity",
+    "acceleration",
+    "roll_std",
+    "static_sensor_alert",
+    "mean",
+    "std",
+    "range"
+  ],
+  "n_features": 13,
+  "sequence_length": 24,
+  "lstm_units": 256,
+  "encoding_dim": 64,
+  "threshold": 1.7267707372205856,
+  "threshold_method": "mu_plus_3sigma",
+  "threshold_stats": {
+    "mu": 0.12098739606996792,
+    "sigma": 0.5352611137168726,
+    "n_sigma": 3
+  },
+  "data_split": {
+    "train_samples": 33504,
+    "val_samples": 8376,
+    "train_ratio": 0.8
+  },
+  "training": {
+    "final_train_loss": 0.14601433277130127,
+    "final_val_loss": 0.13008250296115875,
+    "best_val_loss": 0.12909890711307526,
+    "epochs_trained": 71
+  },
+  "errors": {
+    "train_mean": 0.12098739606996792,
+    "train_std": 0.5352611137168726,
+    "val_mean": 0.12909886488869513,
+    "val_std": 0.5829208057626439
+  }
+}
