@@ -1,7 +1,7 @@
 
 # Anomaly detection for Communities of Interest in Internet of Things using Deep Autoencoders
 
-A deep learning framework for detecting collective contextual anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
+A deep learning framework for detecting collective anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
 
 ## Overview
 
@@ -10,7 +10,7 @@ This repository contains the implementation of a collective anomaly detection me
 ### Key Features
 
 - **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
-- **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTMimplementations
+- **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
 - **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
 - **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
 
@@ -37,8 +37,8 @@ The system extracts 13 features from raw temperature readings:
 ### Data Collection
 
 - **Frequency**: 10-minute intervals
-- **Sequence Lengths**: 24-144 timesteps (4-24 hours)
-- **Clusters**: 4 building clusters formed through hierarchical clustering
+- **Sequence Length**: 24
+- **Clusters**: 4 clusters formed through hierarchical clustering
 
 ### Cross-Validation
 
@@ -66,16 +66,10 @@ Bayesian optimisation (35 evaluations) using Gaussian Process with:
 ### Performance Metrics
 
 Models evaluated using:
-- RMSE, MAE, MAPE
 - Accuracy, Precision, Recall, F1-Score
-- Specificity, AUC-ROC
+- Specificity, AUC-ROC, PR-AUC
 
-### Key Findings
-
-1. **BiLSTM Performance**: Achieved 98.37% recall and 92.11% F1-score
-2. **Sequence Length Impact**: Increasing from 24 to 144 timesteps significantly improved performance
-3. **Model Size**: Smaller, constrained models with regularization outperformed larger models
-4. **Threshold Strategy**: Statistical thresholds (μ + 3σ) proved more practical than ROC-based optimization
+**Threshold Strategy**: Statistical thresholds (μ + 3σ) proved more practical than ROC-based optimization
 
 ## Repository Structure
 
@@ -108,29 +102,17 @@ pip install tensorflow numpy pandas scikit-learn scikit-optimize matplotlib jobl
 
 ## Usage
 
-### 1. Hyperparameter Optimization
+### Hyperparameter Optimisation
 
 ```bash
 # BiLSTM
-python bilstm_hpo_c.py
+python bilstm_hpo_fe.py
 
 # LSTM
 python lstm_hpo_fe.py
 
 # MLP
 python mlp_hpo.py
-```
-
-### 2. Model Training
-
-```bash
-python mlp_final_train.py
-```
-
-### 3. Anomaly Detection
-
-```bash
-python anomaly_test_mlp.py
 ```
 
 ## Reproducibility
@@ -169,7 +151,3 @@ Statistical thresholds and contextual features are essential for detecting colle
 - [ ] Feature importance analysis using permutation methods
 - [ ] Extended validation on diverse building types
 - [ ] Real-time monitoring dashboard
-
----
-
-**Note**: This repository contains research code intended for academic publication. Code is provided for reproducibility and educational purposes.
