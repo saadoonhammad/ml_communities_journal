@@ -1,0 +1,32 @@
+{
+  "sensor_id": "c2_test_c06m136e02_2023_b1",
+  "test_file": "1. Datasets/Test Sets/C2/c2_test_c06m136e02_2023_b1.csv",
+  "model_type": "LSTM Autoencoder",
+  "feature_mode": "all",
+  "sequence_length": 24,
+  "threshold": 0.47623538726898773,
+  "test_samples": 10632,
+  "true_anomalies": 490,
+  "predicted_anomalies": 1302,
+  "confusion_matrix": {
+    "true_negatives": 9328,
+    "false_positives": 814,
+    "false_negatives": 2,
+    "true_positives": 488
+  },
+  "metrics": {
+    "accuracy": 0.9232505643340858,
+    "precision": 0.37480798771121354,
+    "recall": 0.9959183673469387,
+    "f1_score": 0.5446428571428571,
+    "specificity": 0.9197396963123644,
+    "roc_auc": 0.9816596171105002,
+    "pr_auc": 0.6252721865124944
+  },
+  "reconstruction_errors": {
+    "mean": 0.8384612813886789,
+    "std": 4.06321595978466,
+    "min": 0.014233553281064815,
+    "max": 66.06305477065966
+  }
+}
