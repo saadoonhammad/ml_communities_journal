@@ -34,7 +34,7 @@ The system extracts 13 features from raw temperature readings:
 
 ## Methodology
 
-### Data Collection
+### Data Processing and Clustering
 
 - **Frequency**: 10-minute intervals
 - **Sequence Length**: 24
@@ -63,7 +63,7 @@ Bayesian optimisation (35 evaluations) using Gaussian Process with:
 
 ## Results
 
-### Performance Metrics
+### Performance Metrics for Anomaly Detection
 
 Models evaluated using:
 - Accuracy, Precision, Recall, F1-Score
@@ -123,7 +123,7 @@ tf.random.set_seed(42)
 tf.config.experimental.enable_op_determinism()
 ```
 
-Comprehensive metadata, scalers, and model artifacts are saved for traceability across experiments.
+Comprehensive metadata and scalers are saved for traceability across experiments.
 
 ## Key Insights
 
