@@ -75,16 +75,15 @@ Models evaluated using:
 
 ```
 ├── bilstm_hpo_c.py              # BiLSTM hyperparameter optimization
+├── bi_lstm_final_train.py       # BiLSTM architecture implementation
+├── bi_lstm_test.py              # BiLSTM anomaly detection testing
 ├── lstm_hpo_fe.py               # LSTM hyperparameter optimization
-├── mlp_hpo.py                   # MLP hyperparameter optimization
+├── lstm_final_train.py          # LSTM architecture implementation
+├── lstm_test.py                 # LSTM anomaly detection testing
+├── mlp_hpo_fe.py                # MLP hyperparameter optimization
 ├── mlp_final_train.py           # Final MLP training pipeline
-├── anomaly_test_mlp.py          # MLP anomaly detection testing
-├── bi_lstm_autoencoder.py       # BiLSTM architecture implementation
-├── bilstm_feature_engineering.py # Feature engineering for BiLSTM
-├── mlp.py                       # MLP architecture implementation
-├── mlp_test.py                  # MLP testing utilities
-├── mlp_test_anom.py            # MLP anomaly detection utilities
-├── all_data_c4.csv             # Sample cluster data
+├── mlp_test.py                  # MLP anomaly detection testing
+
 └── README.md                    # This file
 ```
 
