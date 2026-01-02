@@ -83,7 +83,6 @@ Models evaluated using:
 ├── mlp_hpo_fe.py                # MLP hyperparameter optimization
 ├── mlp_final_train.py           # Final MLP training pipeline
 ├── mlp_test.py                  # MLP anomaly detection testing
-
 └── README.md                    # This file
 ```
 
