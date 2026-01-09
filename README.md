@@ -7,6 +7,14 @@ A deep learning framework for detecting collective anomalies in IoT temperature 
 
 This repository contains the implementation of a collective anomaly detection methodology designed to identify abnormal sensor behaviour patterns in temperature time series data from a network of meteorological stations in the province of Castelló. The approach integrates hierarchical clustering with three autoencoder architectures (BiLSTM, LSTM, and MLP) to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
 
+### Key Features
+
+- **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
+- **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
+- **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
+- **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
+
+
 ## Repository Structure
 
 This repository contains the implementation of three autoencoder architectures for IoT temperature sensor anomaly detection across four clusters (C1-C4).
@@ -27,12 +35,6 @@ This repository contains the implementation of three autoencoder architectures f
 - **`mlp_test.py`** - Model evaluation and generalizability testing across clusters
 
 Each architecture folder contains trained models and test results organized by cluster (C1-C4). 
-### Key Features
-
-- **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
-- **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
-- **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
-- **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
 
 ## Architecture
 
