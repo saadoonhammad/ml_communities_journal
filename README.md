@@ -117,12 +117,6 @@ Comprehensive metadata and scalers are saved for traceability across experiments
 - Purge gaps between training and validation sets
 - Proper sequence splitting to avoid temporal leakage
 
-### Optimisation Strategy
-
-**Critical Discovery**: Optimising for reconstruction loss minimization is counterproductive for anomaly detection. Models that reconstruct everything perfectly fail to distinguish normal from anomalous patterns.
-
-**Solution**: Optimize for anomaly detection performance metrics (F1-score, Recall) rather than reconstruction error alone.
-
 ### Contextual Features
 
 Statistical thresholds and contextual features are essential for detecting collective anomalies that appear normal in isolation.
