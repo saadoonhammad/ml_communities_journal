@@ -131,5 +131,4 @@ Statistical thresholds and contextual features are essential for detecting colle
 
 - [ ] Complete generalizability evaluation framework
 - [ ] Feature importance analysis using permutation methods
-- [ ] Extended validation on diverse building types
 - [ ] Real-time monitoring dashboard
