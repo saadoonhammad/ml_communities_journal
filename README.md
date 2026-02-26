@@ -12,7 +12,7 @@ This repository contains the implementation of a collective anomaly detection me
 - **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
 - **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
 - **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
-- **Rigorous Hyperparameter Optimisation**: Bayesian optimization with expanding window cross-validation
+- **Rigorous Hyperparameter Optimisation**: Bayesian Hyperband Optimisation with expanding window cross-validation
 - **Comparison**: Comparison with a global baseline to show the effectiveness of CoIs
 
 ## Architectures
