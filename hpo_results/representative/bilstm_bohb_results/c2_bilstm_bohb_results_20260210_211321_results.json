@@ -1,0 +1,37 @@
+{
+  "optimization_method": "Bayesian_Hyperband_BOHB",
+  "model_type": "BiLSTM_Autoencoder",
+  "cluster": "c2",
+  "best_params": {
+    "lstm_units": 98,
+    "encoding_dim": 87,
+    "learning_rate": 0.00024185971885972346,
+    "dropout_rate": 0.12148516239631747,
+    "batch_size": 32,
+    "epochs": 81,
+    "patience_factor": 0.12986848556369707
+  },
+  "best_loss": 0.1376364827156067,
+  "duration_seconds": 43626.609692,
+  "duration_formatted": "12:07:06.609692",
+  "hyperband_config": {
+    "min_epochs": 20,
+    "max_epochs": 100,
+    "eta": 3,
+    "n_trials": 50
+  },
+  "timestamp": "2026-02-10T21:13:21.602529",
+  "feature_engineering": "full_13_features",
+  "trial_statistics": {
+    "total": 60,
+    "completed": 34,
+    "pruned": 26
+  },
+  "environment": {
+    "tensorflow_version": "2.20.0-dev0+selfbuilt",
+    "optuna_version": "4.7.0",
+    "numpy_version": "2.1.3",
+    "python_version": "3.12.3 (main, Jun 18 2025, 17:59:45) [GCC 13.3.0]",
+    "random_seed": 42
+  }
+}
