@@ -13,7 +13,7 @@ This repository contains the implementation of a collective anomaly detection me
 - **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
 - **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
 - **Rigorous Hyperparameter Optimisation**: Bayesian optimization with expanding window cross-validation
-- - **Comparison**: Comparison with a global baseline to show the effectiveness of CoIs
+- **Comparison**: Comparison with a global baseline to show the effectiveness of CoIs
 
 ## Architectures
 
