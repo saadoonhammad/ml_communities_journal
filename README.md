@@ -43,24 +43,16 @@ The system extracts 13 features from raw temperature readings:
 
 ### Cross-Validation
 
-Expanding window cross-validation (5 folds) to preserve temporal order and prevent data leakage:
+Expanding window cross‑validation (5 folds) with purge gap
+- To preserve temporal order and prevent data leakage in time series, we use an expanding window strategy with a mandatory purge gap between training and validation sets.
+- The purge gap length is 2 × sequence_length (default 48 time steps), removing any autocorrelated influence from the training period.
+- The validation set size is fixed and is automatically computed to maximise data usage while ensuring a feasible step between folds.
+- The training set grows with each fold, but the validation window always moves forward without overlap.
 
-```
-Fold 1: Train [0:20%]    → Validate [20:40%]
-Fold 2: Train [0:40%]    → Validate [40:60%]
-Fold 3: Train [0:60%]    → Validate [60:80%]
-Fold 4: Train [0:80%]    → Validate [80:100%]
-Fold 5: Train [0:100%]   → Validate on holdout
-```
+## Hyperparameter Optimisation
 
-### Hyperparameter Optimisation
-
-Bayesian optimisation (35 evaluations) using Gaussian Process with:
-
-- Constrained search spaces forcing regularisation
-- Tight bottleneck architectures
-- Prevention of boundary-hitting behaviour
-- Optimisation for anomaly detection (not just reconstruction)
+Bayesian Hyperband Optimisation (BOHB) – 60 evaluations
+We combine the Tree‑structured Parzen Estimator (TPE) with Hyperband pruning for efficient exploration of the hyperparameter space.
 
 ## Results
 
