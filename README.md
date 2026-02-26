@@ -1,5 +1,5 @@
 
-# Anomaly detection for Communities of Interest in Internet of Things using Deep Autoencoders
+# Community-Based Model Sharing and Generalisation: Anomaly Detection IoT Temperature Sensors Network
 
 A deep learning framework for detecting collective anomalies in IoT temperature sensor data using autoencoder architectures with hierarchical clustering.
 
