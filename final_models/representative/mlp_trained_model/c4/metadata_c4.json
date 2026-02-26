@@ -1,0 +1,75 @@
+{
+  "model_type": "MLP_Autoencoder",
+  "cluster": "c4",
+  "feature_mode": "all",
+  "feature_names": [
+    "temp_value",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "energy",
+    "velocity",
+    "acceleration",
+    "roll_std",
+    "static_sensor_alert",
+    "mean",
+    "std",
+    "range"
+  ],
+  "n_features": 13,
+  "sequence_length": 24,
+  "model_parameters": {
+    "hidden_units": 241,
+    "encoding_dim": 41,
+    "dropout_rate": 0.11300834546346532,
+    "learning_rate": 0.00011494688585971082,
+    "batch_size": 32
+  },
+  "training_parameters": {
+    "epochs": 150,
+    "patience_factor": 0.28484327522615954,
+    "train_ratio": 0.8,
+    "random_seed": 42
+  },
+  "threshold": {
+    "value": 1.3571646760921467,
+    "method": "mu_plus_3_sigma",
+    "mu": 0.03532161593612064,
+    "sigma": 0.440614353385342,
+    "n_sigma": 3
+  },
+  "data_split": {
+    "train_samples": 33504,
+    "val_samples": 8376,
+    "train_ratio": 0.8
+  },
+  "training_results": {
+    "final_train_loss": 0.06301446259021759,
+    "final_val_loss": 0.020061243325471878,
+    "best_val_loss": 0.019540637731552124,
+    "epochs_trained": 150,
+    "best_epoch": 147
+  },
+  "error_statistics": {
+    "train_mean": 0.03532161593612064,
+    "train_std": 0.440614353385342,
+    "train_min": 0.0016976836082812368,
+    "train_max": 16.704768738780356,
+    "val_mean": 0.019540638183721926,
+    "val_std": 0.052637308751758045,
+    "val_min": 0.001760355389749607,
+    "val_max": 0.7477044422453387
+  },
+  "anomaly_rates": {
+    "expected_fpr_train": 0.0013132760267430754,
+    "anomaly_rate_val": 0.0,
+    "n_anomalies_val": 0,
+    "total_val": 8376
+  },
+  "timestamp": "2026-02-18T08:29:34.131336",
+  "environment": {
+    "tensorflow_version": "2.20.0-dev0+selfbuilt",
+    "numpy_version": "2.1.3"
+  }
+}

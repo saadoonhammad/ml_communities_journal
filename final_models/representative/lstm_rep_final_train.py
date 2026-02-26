@@ -599,31 +599,6 @@ plt.tight_layout()
 plt.savefig(f'{OUTPUT_DIR}/reconstruction_errors_train_val_{CLUSTER}.png', dpi=150, bbox_inches='tight')
 plt.close()
 
-# Plot reconstruction vs actual for a few samples
-fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-fig.suptitle('Sample Reconstructions (Feature 0: Temperature)', fontsize=14, fontweight='bold')
-
-for idx, ax in enumerate(axes.flat):
-    if idx < len(X_val_scaled):
-        # Get reconstruction for first feature (temperature)
-        sample = X_val_scaled[idx:idx+1]
-        reconstruction = autoencoder.predict(sample)
-        
-        # Plot actual vs reconstructed for first feature
-        ax.plot(sample[0, :, 0], 'b-', linewidth=2, label='Actual')
-        ax.plot(reconstruction[0, :, 0], 'r--', linewidth=2, label='Reconstructed')
-        
-        error = errors_val[idx]
-        ax.set_title(f'Sample {idx} (Error: {error:.4f})')
-        ax.set_xlabel('Time Step')
-        ax.set_ylabel('Scaled Value')
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig(f'{OUTPUT_DIR}/sample_reconstructions_{CLUSTER}.png', dpi=150, bbox_inches='tight')
-plt.close()
-
 # ========================================================================
 # SAVE MODEL, SCALERS, AND METADATA
 # ========================================================================
@@ -750,7 +725,6 @@ logger.info("  - training_history.png")
 logger.info("  - training_history.csv")
 logger.info("  - reconstruction_errors_train_val.png")
 logger.info("  - reconstruction_errors.csv")
-logger.info("  - sample_reconstructions.png")
 logger.info(f"\nTiming Summary:")
 logger.info(f"  Model training time: {format_time(training_time)['formatted']}")
 logger.info(f"  Overall execution time: {format_time(overall_time)['formatted']}")

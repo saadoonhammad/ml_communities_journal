@@ -1,12 +1,12 @@
 # ============================================================================
-# BILSTM AUTOENCODER - FINAL TRAINING SCRIPT
+# MLP AUTOENCODER - FINAL TRAINING SCRIPT
 # ============================================================================
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Flatten, Reshape, Dropout, LSTM, Bidirectional, RepeatVector, TimeDistributed
+from tensorflow.keras.layers import Input, Dense, Flatten, Reshape, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.preprocessing import StandardScaler
@@ -17,7 +17,6 @@ import json
 import logging
 import warnings
 from datetime import datetime
-import time  # Added for timing
 
 # Setup logging
 logging.basicConfig(
@@ -34,7 +33,7 @@ tf.random.set_seed(RANDOM_SEED)
 os.environ['PYTHONHASHSEED'] = str(RANDOM_SEED)
 
 print("="*80)
-print("BIDIRECTIONAL LSTM AUTOENCODER - FINAL TRAINING")
+print("MLP AUTOENCODER - FINAL TRAINING")
 print("="*80)
 print(f"TensorFlow version: {tf.__version__}")
 print(f"Random seed: {RANDOM_SEED}")
@@ -249,7 +248,7 @@ def plot_training_history(history, save_path='training_history.png'):
     
     plt.xlabel('Epoch', fontsize=12)
     plt.ylabel('Loss (MSE)', fontsize=12)
-    plt.title('BiLSTM Autoencoder Training History', fontsize=14, fontweight='bold')
+    plt.title('MLP Autoencoder Training History', fontsize=14, fontweight='bold')
     plt.legend(fontsize=11)
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
@@ -258,11 +257,11 @@ def plot_training_history(history, save_path='training_history.png'):
     logger.info(f"Training plot saved: {save_path}")
 
 # ============================================================================
-# BIDIRECTIONAL LSTM AUTOENCODER MODEL CLASS
+# MLP AUTOENCODER MODEL CLASS
 # ============================================================================
 
-class BiLSTMAutoencoder:
-    """Bidirectional LSTM Autoencoder for anomaly detection"""
+class MLPAutoencoder:
+    """Multi-Layer Perceptron Autoencoder for anomaly detection"""
     
     def __init__(self, sequence_length, n_features, 
                  hidden_units=128, encoding_dim=32, 
@@ -277,41 +276,37 @@ class BiLSTMAutoencoder:
         self.history = None
         
     def build_model(self):
-        """Build Bidirectional LSTM Autoencoder architecture"""
+        """Build MLP Autoencoder architecture"""
         inp = Input(shape=(self.sequence_length, self.n_features))
         
-        # Encoder with Bidirectional LSTMs
-        x = Bidirectional(LSTM(self.hidden_units, activation='tanh', 
-                             return_sequences=True), 
-                         name='encoder_bilstm1')(inp)
+        # Flatten input
+        x = Flatten()(inp)
+        
+        # Encoder
+        x = Dense(self.hidden_units * 2, activation='tanh')(x)
         x = Dropout(self.dropout_rate)(x)
-        x = Bidirectional(LSTM(self.encoding_dim, activation='tanh', 
-                             return_sequences=False),
-                         name='encoder_bilstm2')(x)
+        x = Dense(self.hidden_units, activation='tanh')(x)
         x = Dropout(self.dropout_rate)(x)
         
-        # Repeat vector to convert encoding to sequence
-        encoded = RepeatVector(self.sequence_length)(x)
+        # Bottleneck
+        z = Dense(self.encoding_dim, activation='tanh')(x)
         
-        # Decoder with Bidirectional LSTMs
-        x = Bidirectional(LSTM(self.encoding_dim, activation='tanh', 
-                             return_sequences=True),
-                         name='decoder_bilstm1')(encoded)
+        # Decoder
+        x = Dense(self.hidden_units, activation='tanh')(z)
         x = Dropout(self.dropout_rate)(x)
-        x = Bidirectional(LSTM(self.hidden_units, activation='tanh', 
-                             return_sequences=True),
-                         name='decoder_bilstm2')(x)
+        x = Dense(self.hidden_units * 2, activation='tanh')(x)
         x = Dropout(self.dropout_rate)(x)
         
-        # Output layer
-        out = TimeDistributed(Dense(self.n_features))(x)
+        # Output - reconstruct to original shape
+        x = Dense(self.sequence_length * self.n_features)(x)
+        out = Reshape((self.sequence_length, self.n_features))(x)
         
         self.model = Model(inp, out)
         optimizer = Adam(learning_rate=self.learning_rate, clipnorm=1.0)
         self.model.compile(optimizer=optimizer, loss='mse', metrics=['mae'])
         
         logger.info("\n" + "="*60)
-        logger.info("BIDIRECTIONAL LSTM AUTOENCODER ARCHITECTURE")
+        logger.info("MLP AUTOENCODER ARCHITECTURE")
         logger.info("="*60)
         self.model.summary(print_fn=logger.info)
         
@@ -349,11 +344,8 @@ class BiLSTMAutoencoder:
         ]
         
         logger.info("\n" + "="*60)
-        logger.info("TRAINING BIDIRECTIONAL LSTM AUTOENCODER")
+        logger.info("TRAINING MLP AUTOENCODER")
         logger.info("="*60)
-        
-        # Start timing
-        start_time = time.time()
         
         self.history = self.model.fit(
             X_train, X_train,
@@ -365,18 +357,7 @@ class BiLSTMAutoencoder:
             shuffle=False  # Preserve chronological order
         )
         
-        # End timing and calculate duration
-        end_time = time.time()
-        training_time = end_time - start_time
-        
-        # Convert to hours, minutes, seconds
-        hours = int(training_time // 3600)
-        minutes = int((training_time % 3600) // 60)
-        seconds = int(training_time % 60)
-        
-        logger.info(f"\nTraining completed in: {hours}h {minutes}m {seconds}s ({training_time:.2f} seconds)")
-        
-        return self.history, training_time
+        return self.history
     
     def predict(self, X):
         """Reconstruct input data"""
@@ -391,22 +372,22 @@ class BiLSTMAutoencoder:
 # CONFIGURATION
 # ============================================================================
 
-CLUSTER = 'c4'
+CLUSTER = 'c3'
 TRAIN_CSV_PATH = f'../1. Datasets/Train Sets/{CLUSTER}_train/train_data_{CLUSTER}.csv'
-OUTPUT_DIR = f'../Final Train/Representative/bilstm_trained_model/{CLUSTER}'  # Changed to bilstm
+OUTPUT_DIR = f'../Final Train/Representative/mlp_trained_model/{CLUSTER}'
 
 # Data parameters
 SEQUENCE_LENGTH = 24
 TRAIN_RATIO = 0.8  # 80% train, 20% validation
 
 # Model parameters (from BOHB optimization)
-HIDDEN_UNITS = 162  
-ENCODING_DIM = 96   
-DROPOUT_RATE = 0.1007498143500364 
-LEARNING_RATE = 0.0004441358316524765  
+HIDDEN_UNITS = 162    
+ENCODING_DIM = 70  
+DROPOUT_RATE = 0.10087485185775767  
+LEARNING_RATE = 0.00014177530666893253 
 BATCH_SIZE = 32     
-EPOCHS = 92   
-PATIENCE_FACTOR = 0.1177768873086837  
+EPOCHS = 150        
+PATIENCE_FACTOR = 0.19184106107344448 
 
 # Feature mode: 'raw', 'temporal', 'statistical', 'derivative', 'volatility', 'all'
 FEATURE_MODE = 'all'
@@ -486,13 +467,7 @@ for i in range(n_features):
 # BUILD AND TRAIN MODEL
 # ========================================================================
 
-# Create output directory
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-# Start overall training timing
-overall_start_time = time.time()
-
-autoencoder = BiLSTMAutoencoder(  # Changed to BiLSTMAutoencoder
+autoencoder = MLPAutoencoder(
     sequence_length=SEQUENCE_LENGTH,
     n_features=n_features,
     hidden_units=HIDDEN_UNITS,
@@ -501,23 +476,12 @@ autoencoder = BiLSTMAutoencoder(  # Changed to BiLSTMAutoencoder
     dropout_rate=DROPOUT_RATE
 )
 
-history, training_time = autoencoder.train(  # Changed to capture training_time
+history = autoencoder.train(
     X_train_scaled, X_val_scaled,
     epochs=EPOCHS,
     batch_size=BATCH_SIZE,
     patience_factor=PATIENCE_FACTOR
 )
-
-# Calculate overall time including preprocessing and postprocessing
-overall_end_time = time.time()
-overall_time = overall_end_time - overall_start_time
-
-# Convert overall time to hours, minutes, seconds
-overall_hours = int(overall_time // 3600)
-overall_minutes = int((overall_time % 3600) // 60)
-overall_seconds = int(overall_time % 60)
-
-logger.info(f"\nOverall script execution time: {overall_hours}h {overall_minutes}m {overall_seconds}s ({overall_time:.2f} seconds)")
 
 # ========================================================================
 # CALCULATE RECONSTRUCTION ERRORS ON TRAINING DATA
@@ -570,6 +534,8 @@ logger.info(f"\nValidation anomaly rate: {n_anomalies_val}/{len(errors_val)} ({a
 # VISUALIZE TRAINING
 # ========================================================================
 
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 # Plot training history
 plot_training_history(history, f'{OUTPUT_DIR}/training_history_{CLUSTER}.png')
 
@@ -602,31 +568,6 @@ plt.tight_layout()
 plt.savefig(f'{OUTPUT_DIR}/reconstruction_errors_train_val_{CLUSTER}.png', dpi=150, bbox_inches='tight')
 plt.close()
 
-# Plot reconstruction vs actual for a few samples
-fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-fig.suptitle('Sample Reconstructions (Feature 0: Temperature)', fontsize=14, fontweight='bold')
-
-for idx, ax in enumerate(axes.flat):
-    if idx < len(X_val_scaled):
-        # Get reconstruction for first feature (temperature)
-        sample = X_val_scaled[idx:idx+1]
-        reconstruction = autoencoder.predict(sample)
-        
-        # Plot actual vs reconstructed for first feature
-        ax.plot(sample[0, :, 0], 'b-', linewidth=2, label='Actual')
-        ax.plot(reconstruction[0, :, 0], 'r--', linewidth=2, label='Reconstructed')
-        
-        error = errors_val[idx]
-        ax.set_title(f'Sample {idx} (Error: {error:.4f})')
-        ax.set_xlabel('Time Step')
-        ax.set_ylabel('Scaled Value')
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig(f'{OUTPUT_DIR}/sample_reconstructions_{CLUSTER}.png', dpi=150, bbox_inches='tight')
-plt.close()
-
 # ========================================================================
 # SAVE MODEL, SCALERS, AND METADATA
 # ========================================================================
@@ -636,30 +577,16 @@ logger.info("SAVING MODEL AND ARTIFACTS")
 logger.info("="*60)
 
 # Save model
-autoencoder.model.save(f'{OUTPUT_DIR}/bilstm_autoencoder_{CLUSTER}.h5')  # Changed to bilstm
-logger.info(f"✓ Model saved: {OUTPUT_DIR}/bilstm_autoencoder_{CLUSTER}.h5")
+autoencoder.model.save(f'{OUTPUT_DIR}/mlp_autoencoder_{CLUSTER}.h5')
+logger.info(f"✓ Model saved: {OUTPUT_DIR}/mlp_autoencoder_{CLUSTER}.h5")
 
 # Save scalers
 joblib.dump(scalers, f'{OUTPUT_DIR}/scalers_{CLUSTER}.pkl')
 logger.info(f"✓ Scalers saved: {OUTPUT_DIR}/scalers_{CLUSTER}.pkl")
 
-# Convert times to readable format
-def format_time(seconds):
-    """Convert seconds to human readable format"""
-    hours = int(seconds // 3600)
-    minutes = int((seconds % 3600) // 60)
-    secs = seconds % 60
-    return {
-        'total_seconds': float(seconds),
-        'hours': hours,
-        'minutes': minutes,
-        'seconds': secs,
-        'formatted': f"{hours}h {minutes}m {secs:.2f}s"
-    }
-
 # Save metadata
 metadata = {
-    'model_type': 'Bidirectional_LSTM_Autoencoder',  # Changed to Bidirectional LSTM
+    'model_type': 'MLP_Autoencoder',
     'cluster': CLUSTER,
     'feature_mode': FEATURE_MODE,
     'feature_names': feature_names,
@@ -677,12 +604,6 @@ metadata = {
         'patience_factor': PATIENCE_FACTOR,
         'train_ratio': TRAIN_RATIO,
         'random_seed': RANDOM_SEED
-    },
-    'timing': {  # Added timing section
-        'training_time': format_time(training_time),
-        'overall_time': format_time(overall_time),
-        'start_time': datetime.fromtimestamp(overall_start_time).isoformat(),
-        'end_time': datetime.fromtimestamp(overall_end_time).isoformat()
     },
     'threshold': {
         'value': float(threshold),
@@ -741,20 +662,17 @@ history_df = pd.DataFrame({
 history_df.to_csv(f'{OUTPUT_DIR}/training_history_{CLUSTER}.csv', index=False)
 logger.info(f"✓ Training history saved: {OUTPUT_DIR}/training_history_{CLUSTER}.csv")
 
+logger.info(f"✓ Reconstruction errors saved: {OUTPUT_DIR}/reconstruction_errors_{CLUSTER}.csv")
 
 logger.info("\n" + "="*60)
 logger.info("TRAINING COMPLETE!")
 logger.info("="*60)
 logger.info(f"\nModel artifacts saved in: {OUTPUT_DIR}/")
 logger.info("Files created:")
-logger.info("  - bilstm_autoencoder.h5 (trained model)")  # Changed to bilstm
+logger.info("  - mlp_autoencoder.h5 (trained model)")
 logger.info("  - scalers.pkl (feature scalers)")
 logger.info("  - metadata.json (configuration and results)")
 logger.info("  - training_history.png")
 logger.info("  - training_history.csv")
 logger.info("  - reconstruction_errors_train_val.png")
 logger.info("  - reconstruction_errors.csv")
-logger.info("  - sample_reconstructions.png")
-logger.info(f"\nTiming Summary:")
-logger.info(f"  Model training time: {format_time(training_time)['formatted']}")
-logger.info(f"  Overall execution time: {format_time(overall_time)['formatted']}")

@@ -1,0 +1,93 @@
+{
+  "model_type": "LSTM_Autoencoder",
+  "cluster": "c1",
+  "feature_mode": "all",
+  "feature_names": [
+    "temp_value",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "energy",
+    "velocity",
+    "acceleration",
+    "roll_std",
+    "static_sensor_alert",
+    "mean",
+    "std",
+    "range"
+  ],
+  "n_features": 13,
+  "sequence_length": 24,
+  "model_parameters": {
+    "hidden_units": 150,
+    "encoding_dim": 93,
+    "dropout_rate": 0.10780215357529163,
+    "learning_rate": 0.0008978965168601646,
+    "batch_size": 32
+  },
+  "training_parameters": {
+    "epochs": 150,
+    "patience_factor": 0.11459623848582222,
+    "train_ratio": 0.8,
+    "random_seed": 42
+  },
+  "timing": {
+    "training_time": {
+      "total_seconds": 853.1438086032867,
+      "hours": 0,
+      "minutes": 14,
+      "seconds": 13.143808603286743,
+      "formatted": "0h 14m 13.14s"
+    },
+    "overall_time": {
+      "total_seconds": 853.251177072525,
+      "hours": 0,
+      "minutes": 14,
+      "seconds": 13.251177072525024,
+      "formatted": "0h 14m 13.25s"
+    },
+    "start_time": "2026-02-18T11:45:25.920194",
+    "end_time": "2026-02-18T11:59:39.171371"
+  },
+  "threshold": {
+    "value": 1.498302015975009,
+    "method": "mu_plus_3_sigma",
+    "mu": 0.11102615437884282,
+    "sigma": 0.462425287198722,
+    "n_sigma": 3
+  },
+  "data_split": {
+    "train_samples": 33504,
+    "val_samples": 8376,
+    "train_ratio": 0.8
+  },
+  "training_results": {
+    "final_train_loss": 0.12214928865432739,
+    "final_val_loss": 0.12151312828063965,
+    "best_val_loss": 0.11987421661615372,
+    "epochs_trained": 81,
+    "best_epoch": 63
+  },
+  "error_statistics": {
+    "train_mean": 0.11102615437884282,
+    "train_std": 0.462425287198722,
+    "train_min": 0.005511030809166288,
+    "train_max": 14.114900324165133,
+    "val_mean": 0.11987418733524574,
+    "val_std": 0.5763724884933222,
+    "val_min": 0.0057691561717264,
+    "val_max": 11.548604767929591
+  },
+  "anomaly_rates": {
+    "expected_fpr_train": 0.006476838586437441,
+    "anomaly_rate_val": 0.012058261700095512,
+    "n_anomalies_val": 101,
+    "total_val": 8376
+  },
+  "timestamp": "2026-02-18T11:59:45.604583",
+  "environment": {
+    "tensorflow_version": "2.20.0-dev0+selfbuilt",
+    "numpy_version": "2.1.3"
+  }
+}
