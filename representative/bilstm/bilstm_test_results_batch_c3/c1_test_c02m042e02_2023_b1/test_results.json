@@ -1,0 +1,32 @@
+{
+  "sensor_id": "c1_test_c02m042e02_2023_b1",
+  "test_file": "../1. Datasets/Test Sets/C3/c1_test_c02m042e02_2023_b1.csv",
+  "model_type": "BiLSTM Autoencoder",
+  "feature_mode": "all",
+  "sequence_length": 24,
+  "threshold": 0.40728039276293915,
+  "test_samples": 10632,
+  "true_anomalies": 734,
+  "predicted_anomalies": 841,
+  "confusion_matrix": {
+    "true_negatives": 9760,
+    "false_positives": 138,
+    "false_negatives": 31,
+    "true_positives": 703
+  },
+  "metrics": {
+    "accuracy": 0.984104589917231,
+    "precision": 0.835909631391201,
+    "recall": 0.9577656675749319,
+    "f1_score": 0.8926984126984127,
+    "specificity": 0.9860577894524146,
+    "roc_auc": 0.9869167552633593,
+    "pr_auc": 0.7452590850556988
+  },
+  "reconstruction_errors": {
+    "mean": 0.21471328609677304,
+    "std": 1.10857796508664,
+    "min": 0.005583083161793624,
+    "max": 21.743645438967185
+  }
+}
