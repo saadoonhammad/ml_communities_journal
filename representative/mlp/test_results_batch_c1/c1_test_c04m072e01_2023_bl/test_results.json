@@ -1,0 +1,32 @@
+{
+  "sensor_id": "c1_test_c04m072e01_2023_bl",
+  "test_file": "../1. Datasets/Test Sets/C1/c1_test_c04m072e01_2023_bl.csv",
+  "model_type": "MLP Autoencoder",
+  "feature_mode": "all",
+  "sequence_length": 24,
+  "threshold": 0.9020377783471859,
+  "test_samples": 10632,
+  "true_anomalies": 538,
+  "predicted_anomalies": 612,
+  "confusion_matrix": {
+    "true_negatives": 10017,
+    "false_positives": 77,
+    "false_negatives": 3,
+    "true_positives": 535
+  },
+  "metrics": {
+    "accuracy": 0.9924755455229496,
+    "precision": 0.8741830065359477,
+    "recall": 0.9944237918215614,
+    "f1_score": 0.9304347826086956,
+    "specificity": 0.992371705963939,
+    "roc_auc": 0.9912591159826257,
+    "pr_auc": 0.7259822004425713
+  },
+  "reconstruction_errors": {
+    "mean": 0.26058163015303537,
+    "std": 1.711415391660571,
+    "min": 0.002051671475582151,
+    "max": 31.832056836339014
+  }
+}
