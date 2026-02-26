@@ -94,6 +94,6 @@ Statistical thresholds and contextual features are essential for detecting colle
 
 ## Future Work
 
-- [ ] Complete generalisability evaluation framework
-- [ ] Feature importance analysis using permutation methods
-- [ ] Implementation of the trained models on resource-constrained devices such as microcontrollers
+-  Complete generalisability evaluation framework
+-  Feature importance analysis using permutation methods
+-  Implementation of the trained models on resource-constrained devices such as microcontrollers
