@@ -5,15 +5,15 @@ A deep learning framework for detecting collective anomalies in IoT temperature 
 
 ## Overview
 
-This repository contains the implementation of a collective anomaly detection methodology designed to identify abnormal sensor behaviour patterns in temperature time series data from a network of meteorological stations in the province of Castelló. The approach integrates hierarchical clustering with three autoencoder architectures (BiLSTM, LSTM, and MLP) to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
+This repository contains the implementation of a collective anomaly detection methodology designed to identify abnormal sensor behaviour patterns in temperature time series data from a network of meteorological stations in the province of Castelló. The approach integrates hierarchical clustering to form Communities of Interest (CoIs). Three autoencoder architectures (BiLSTM, LSTM, and MLP) are trained to detect collective anomalies such as sustained temperature drops indicating sensor malfunctions.
 
 ### Key Features
 
 - **Hierarchical Clustering**: Groups sensors based on temporal, spatial, and elevation similarities (4 clusters: C1-C4)
 - **Multiple Autoencoder Architectures**: MLP, LSTM and BiLSTM implementations
 - **Comprehensive Feature Engineering**: 13-feature pipeline including temporal encodings, statistical features.
-- **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
-
+- **Rigorous Hyperparameter Optimisation**: Bayesian optimization with expanding window cross-validation
+- - **Comparison**: Comparison with a global baseline to show the effectiveness of CoIs
 
 ## Architectures
 
