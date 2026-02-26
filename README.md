@@ -15,28 +15,7 @@ This repository contains the implementation of a collective anomaly detection me
 - **Rigorous Hyperparameter Optimization**: Bayesian optimization with expanding window cross-validation
 
 
-## Repository Structure
-
-This repository contains the implementation of three autoencoder architectures for IoT temperature sensor anomaly detection across four clusters (C1-C4).
-
-### BiLSTM (`/bilstm`)
-- **`bilstm_hpo.py`** - Bayesian hyperparameter optimization for BiLSTM autoencoder models
-- **`bi_lstm_final_train.py`** - Final training of BiLSTM models using optimized hyperparameters
-- **`bi_lstm_test.py`** - Model evaluation and generalizability testing across clusters
-
-### LSTM (`/lstm`)
-- **`lstm_hpo.py`** - Bayesian hyperparameter optimization for LSTM autoencoder models
-- **`lstm_final_train.py`** - Final training of LSTM models using optimized hyperparameters
-- **`lstm_test.py`** - Model evaluation and generalizability testing across clusters
-
-### MLP (`/mlp`)
-- **`mlp_hpo.py`** - Bayesian hyperparameter optimization for MLP autoencoder models
-- **`mlp_final_train.py`** - Final training of MLP models using optimized hyperparameters
-- **`mlp_test.py`** - Model evaluation and generalizability testing across clusters
-
-Each architecture folder contains trained models and test results organized by cluster (C1-C4). 
-
-## Architecture
+## Architectures
 
 ### Autoencoder Models
 
