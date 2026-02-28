@@ -51,8 +51,7 @@ Expanding window cross‑validation (5 folds) with purge gap
 
 ## Hyperparameter Optimisation
 
-Bayesian Hyperband Optimisation (BOHB) – 60 evaluations
-We combine the Tree‑structured Parzen Estimator (TPE) with Hyperband pruning for efficient exploration of the hyperparameter space.
+Bayesian Hyperband Optimisation (BOHB) with 60 evaluations. We combine the Tree‑structured Parzen Estimator (TPE) with Hyperband pruning for efficient exploration of the hyperparameter space.
 
 ## Results
 
